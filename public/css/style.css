@@ -1,0 +1,74 @@
+.error-message {
+    color: #ff0000;
+}
+
+.landing-event {
+    border:2px solid #4caf50 !important;
+    border-radius:33px !important;
+}
+
+.landing-announcement {
+    border:2px solid #4caf50 !important;
+    border-radius:10px !important;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.landing-category {
+    border:none !important;
+    border-radius:33px !important;
+}
+
+.countdown {
+    color:rgba(50, 166, 96, 0.82);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.event-donor {
+    border:2px solid #4caf50 !important;
+    border-radius:10px !important;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.event-donate {
+    border:2px solid #4caf50 !important;
+    border-radius:33px !important;
+}
+
+.event-donate-pay {
+    border:2px solid #4caf50 !important;
+    border-radius:33px !important;
+    padding: 20px;
+}
+
+.event-donate-paymentmethod {
+    border:2px solid black !important;
+    border-radius:33px !important;
+    padding: 20px;
+}
+
+.event-donate-payment {
+    border:2px solid black !important;
+    border-radius:33px !important;
+    padding: 5px;
+}
+
+.redeem-voucher {
+    border:2px solid #4caf50 !important;
+    border-radius:10px !important;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.redeem-voucher-pass {
+    border:2px solid #929895 !important;
+    border-radius:10px !important;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.modal-dialog {
+    max-width: 800px !important;
+}
