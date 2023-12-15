@@ -11,15 +11,19 @@ class EventRedistribution extends Model
         'event_name',
         'event_date',
         'location',
-        'food_amount_unit',
-        'food_amount',
         'people_quantity',
         'leftovers_description',
         'status',
+        'completed_at',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function foodItems()
+    {
+        return $this->morphMany(FoodItems::class, 'itemable');
     }
 }

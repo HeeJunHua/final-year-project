@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('contact_number', 20);
             $table->string('user_role', 50)->default('user');
             $table->string('user_photo', 255)->default('default_profile_icon.png')->nullable();
+            $table->rememberToken();
+            $table->string('verification_token')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('reset_password_token')->nullable();
             $table->timestamps();
         });
     }

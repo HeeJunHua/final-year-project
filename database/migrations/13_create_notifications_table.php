@@ -12,7 +12,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('notification_title', 255);
             $table->text('notification_content');
-            $table->text('notification_description');
+            $table->boolean('notification_read')->default(false);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

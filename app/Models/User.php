@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     protected $fillable = [
@@ -18,6 +19,7 @@ class User extends Authenticatable
         'contact_number',
         'user_role',
         'user_photo',
+        'reset_password_token',
     ];
 
     protected $hidden = [

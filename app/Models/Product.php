@@ -8,7 +8,7 @@ class Product extends Model
 {
     protected $fillable = [
         'product_name',
-'inventory_id',
+        'inventory_id',
         'product_category',
         'product_description',
         'product_expiry_date',
@@ -20,4 +20,5 @@ class Product extends Model
     {
         return $this->belongsTo(Inventory::class);
     }
+
 }

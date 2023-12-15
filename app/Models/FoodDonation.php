@@ -8,9 +8,9 @@ class FoodDonation extends Model
 {
     protected $fillable = [
         'user_id',
-        'food_item_id',
         'food_donation_date',
         'food_donation_status',
+        'total_quantity',
     ];
 
     public function user()
@@ -18,8 +18,18 @@ class FoodDonation extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function foodItem()
+    public function getTotalQuantityAttribute()
     {
-        return $this->belongsTo(FoodItems::class);
+        return $this->foodItems()->sum('food_item_quantity');
+    }
+
+    public function foodItems()
+    {
+        return $this->morphMany(FoodItems::class, 'itemable');
+    }
+
+    public function foodBank()
+    {
+        return $this->belongsTo(FoodBank::class, 'food_bank_id', 'id'); 
     }
 }

@@ -9,15 +9,14 @@ return new class extends Migration
     {
         Schema::create('event_redistributions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained(); // Relationship with users
+            $table->foreignId('user_id')->constrained();
             $table->string('event_name');
             $table->dateTime('event_date');
             $table->string('location');
-            $table->enum('food_amount_unit', ['quantity', 'kg'])->default('quantity');
-            $table->float('food_amount');
             $table->integer('people_quantity');
             $table->text('leftovers_description')->nullable();
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['incomplete','pending', 'approved', 'rejected', 'completed'])->default('incomplete');
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });
     }

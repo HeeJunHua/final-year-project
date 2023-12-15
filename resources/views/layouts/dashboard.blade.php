@@ -17,6 +17,11 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <!-- jQuery -->
     <script src="{{ asset('theme/v1/plugins/jquery/jquery.min.js') }}"></script>
+
+    <style>
+        @yield('style');
+    </style>
+    
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -132,9 +137,9 @@
                             </a>
                         </li>
                         <li
-                            class="nav-item {{ request()->routeIs('event.history') || request()->routeIs('event.redeem') || request()->routeIs('food.donation.history') ? 'menu-open' : ''}}">
+                            class="nav-item {{ request()->routeIs('event.history') || request()->routeIs('event.redeem') || request()->routeIs('food.donation.history')  || request()->routeIs('event.redistribution.history.status') || request()->routeIs('event.redistribution.history') || request()->routeIs('food.donation.history.status') ? 'menu-open' : ''}}">
                             <a href="#"
-                                class="nav-link {{ request()->routeIs('event.history') || request()->routeIs('food.donation.history') || request()->routeIs('event.redeem') ? 'active' : '' }}">
+                                class="nav-link {{ request()->routeIs('event.history') || request()->routeIs('food.donation.history') || request()->routeIs('event.redistribution.history')  || request()->routeIs('event.redistribution.history.status') || request()->routeIs('food.donation.history.status') || request()->routeIs('event.redeem') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-hand-holding-usd"></i>
                                 <p>Donor<i class="right fas fa-angle-left"></i></p>
                             </a>
@@ -148,11 +153,19 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('food.donation.history')}}"
-                                        class="nav-link {{ request()->routeIs('food.donation.history') ? 'active' : '' }}">
+                                        class="nav-link {{ request()->routeIs('food.donation.history') || request()->routeIs('food.donation.history.status') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-hamburger"></i>
                                         <p>Food Donation History</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('event.redistribution.history')}}"
+                                        class="nav-link {{ request()->routeIs('event.redistribution.history')  || request()->routeIs('event.redistribution.history.status') ? 'active' : '' }}">
+                                        <i class="nav-icon fas fa-star"></i>
+                                        <p>Event Redistribution History History</p>
+                                    </a>
+                                </li>
+                                
                                 <li class="nav-item">
                                     <a href="{{ route('event.redeem', ['status'=>'Ongoing'])}}"
                                         class="nav-link {{ request()->routeIs('event.redeem') ? 'active' : '' }}">
@@ -196,20 +209,6 @@
                                         </a>
                                     </li>
                                 </ul>
-                        </li>
-                        <li class="nav-item {{ request()->routeIs('event.volunteer') ? 'active' : '' }}">
-                            <a href="{{ route('event.volunteer', ['type' => 'myevent'])}}"
-                                class="nav-link {{ request()->routeIs('event.volunteer') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-users"></i>
-                                <p>Volunteer</p>
-                            </a>
-                        </li>
-                        <li class="nav-item {{ request()->routeIs('event.reportvolunteer') ? 'active' : '' }}">
-                            <a href="{{ route('event.reportvolunteer')}}"
-                                class="nav-link {{ request()->routeIs('event.reportvolunteer') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-file"></i>
-                                <p>Volunteer Report</p>
-                            </a>
                         </li>
                         @if(auth()->user()->user_role=="admin")
                         <li class="nav-item {{ request()->routeIs('admin.dashboard.users') ? 'active' : '' }}">
@@ -256,11 +255,13 @@
                         </li>
                         @endif
                         <li class="nav-item">
-                            <a href="{{ route('logout')}}"
-                                class="nav-link">
-                                <i class="nav-icon fas fa-sign-out-alt"></i>
-                                <p>Logout</p>
-                            </a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="nav-link" style="border: none; background: none;">
+                                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                                    Logout
+                                </button>
+                            </form>                            
                         </li>
                     </ul>
                 </nav>
@@ -321,6 +322,8 @@
     <script src="{{ asset('theme/v1/dist/js/adminlte.min.js') }}"></script>
     <!-- Custom Script -->
     <script src="{{ asset('js/script.js') }}"></script>
+
+    @yield('scripts');
 </body>
 
 </html>

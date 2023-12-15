@@ -8,22 +8,23 @@ class FoodItems extends Model
 {
     protected $fillable = [
         'user_id',
+        'food_donation_id',
         'food_item_name',
         'food_item_category',
         'food_item_quantity',
+        'has_expiry_date',
         'food_item_expiry_date',
         'donated',
+        'itemable_id',
+        'itemable_type',
     ];
 
-    public function foodDonations()
+    // Polymorphic relationship
+    public function itemable()
     {
-        return $this->hasMany(FoodDonation::class);
+        return $this->morphTo();
     }
-
-    public function eventRedistributions()
-    {
-        return $this->hasMany(EventRedistribution::class);
-    }
+    
 
     public function scopeNotDonated($query)
     {
