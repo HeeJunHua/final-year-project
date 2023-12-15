@@ -71,7 +71,7 @@ class UserController extends Controller
         $user->username = $username;
         $user->user_photo = $defaultProfileIcon;
         $user->password = Hash::make($request->password);
-        
+
         // Generate and set the verification token
         $user->verification_token = Str::random(32);
 
@@ -118,7 +118,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             // Authentication passed, redirect to the dashboard or desired page
             return redirect('/')->with('success', 'Login successful');
-        }else {
+        } else {
             // Authentication failed, redirect back with an error message
             return redirect()->back()->withErrors(['login' => 'Invalid login credentials'])->withInput();
         }
@@ -242,11 +242,12 @@ class UserController extends Controller
     }
 
     //global redirect function
-    public function redirectToPage($route, $status, $message) {
-        switch($route) {
+    public function redirectToPage($route, $status, $message)
+    {
+        switch ($route) {
             case "volunteer":
                 //redirect to function with alert and message
-                return redirect()->route('event.volunteer',['type'=>'myregister'])->with($status, $message);
+                return redirect()->route('event.volunteer', ['type' => 'myregister'])->with($status, $message);
             default:
                 //redirect to function with alert and message
                 return redirect()->route($route)->with($status, $message);
@@ -258,56 +259,60 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $userNotifications = Notification::where('user_id', auth()->id())
-                ->where('notification_read', false)
-                ->get();
-        
+            ->where('notification_read', false)
+            ->get();
+
 
         // This is not a good idea to put but i will just put here as incomplete function
         // It should be used in a service or cron so this function is bad for future use
-        // Check if the user has an inventory
-        if ($user->inventory) {
-            // Check if any product in the inventory is near expiring
-            $nearExpiringProducts = $user->inventory->products()
-                ->where('product_status', 'good')
-                ->where('product_expiry_date', '<=', now()->addDays(7))
-                ->where('product_expiry_date', '>', now()) 
-                ->get();
 
-            $expiringProducts = $user->inventory->products()
-                ->whereIn('product_status', ['good', 'near_expiring'])
-                ->where('product_expiry_date', '<', now())
-                ->get();
+        if ($user) {
+            // Check if the user has an inventory
+            if ($user->inventory) {
+                // Check if any product in the inventory is near expiring
+                $nearExpiringProducts = $user->inventory->products()
+                    ->where('product_status', 'good')
+                    ->where('product_expiry_date', '<=', now()->addDays(7))
+                    ->where('product_expiry_date', '>', now())
+                    ->get();
 
-            // If there are near expiring products, create a notification and send an email
-            if ($nearExpiringProducts->isNotEmpty()) {
+                $expiringProducts = $user->inventory->products()
+                    ->whereIn('product_status', ['good', 'near_expiring'])
+                    ->where('product_expiry_date', '<', now())
+                    ->get();
 
-                // Loop through each near-expiring product and send a notification
-                foreach ($nearExpiringProducts as $product) {
-                $title = "Near Expired Item Found";
-                $content = "Your product". $product->product_name. " is near to expiration.";
-                    // Create a notification for each product
-                    Notification::createNotification($user, $title, $content);
+                // If there are near expiring products, create a notification and send an email
+                if ($nearExpiringProducts->isNotEmpty()) {
 
-                    // Send a notification to the user for each product
-                    Mail::to($user->email)->send(new ProductExpiryMail($user, $product));
-                    $product->update(['product_status' => 'near_expiry']);
+                    // Loop through each near-expiring product and send a notification
+                    foreach ($nearExpiringProducts as $product) {
+                        $title = "Near Expired Item Found";
+                        $content = "Your product" . $product->product_name . " is near to expiration.";
+                        // Create a notification for each product
+                        Notification::createNotification($user, $title, $content);
+
+                        // Send a notification to the user for each product
+                        Mail::to($user->email)->send(new ProductExpiryMail($user, $product));
+                        $product->update(['product_status' => 'near_expiry']);
+                    }
                 }
-            }
-            if ($expiringProducts->isNotEmpty()){
+                if ($expiringProducts->isNotEmpty()) {
 
-                // Loop through each near-expiring product and send a notification
-                foreach ($expiringProducts as $product) {
-                $title = "Expired Item Found";
-                $content = "Your product" . $product->product_name . " is expired.";
-                    // Create a notification for each product
-                    Notification::createNotification($user, $title, $content);
+                    // Loop through each near-expiring product and send a notification
+                    foreach ($expiringProducts as $product) {
+                        $title = "Expired Item Found";
+                        $content = "Your product" . $product->product_name . " is expired.";
+                        // Create a notification for each product
+                        Notification::createNotification($user, $title, $content);
 
-                    // Send a notification to the user for each product
-                    Mail::to($user->email)->send(new ProductExpiryMail($user, $product));
-                    $product->update(['product_status' => 'expired']);
+                        // Send a notification to the user for each product
+                        Mail::to($user->email)->send(new ProductExpiryMail($user, $product));
+                        $product->update(['product_status' => 'expired']);
+                    }
                 }
             }
         }
+
 
 
         //get event

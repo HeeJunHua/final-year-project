@@ -162,7 +162,7 @@
                                     <a href="{{ route('event.redistribution.history')}}"
                                         class="nav-link {{ request()->routeIs('event.redistribution.history')  || request()->routeIs('event.redistribution.history.status') ? 'active' : '' }}">
                                         <i class="nav-icon fas fa-star"></i>
-                                        <p>Event Redistribution History History</p>
+                                        <p>Redistribution History</p>
                                     </a>
                                 </li>
                                 
