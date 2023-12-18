@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.fundraise_layout')
 
 @section('title')
     <title>Food Donation Page</title>
@@ -176,7 +176,7 @@
                                 <label for="food_item_expiry_date" class="form-label">
                                     Expiry Date
                                     <i class="fa fa-info-circle info-icon" data-toggle="tooltip" data-placement="top"
-                                        title="Enter the expiry date of the food item."></i>
+                                        title="Enter the expiry date of the food item. Food item must have at least 2 days before the expiry date."></i>
                                 </label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="expiry-date-addon">
@@ -488,7 +488,7 @@
 
     // Set the minimum date to one week from the current date
     const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 7); // One week from the current date
+    currentDate.setDate(currentDate.getDate() + 3); // 2 Days from the current date
 
     const formattedDate = currentDate.toISOString().slice(0, 10); // Format as YYYY-MM-DD
 

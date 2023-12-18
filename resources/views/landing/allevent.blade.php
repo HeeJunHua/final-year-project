@@ -69,26 +69,22 @@
 <body>
     
     @if (session('success'))
-        <div class="alert alert-success"  style="margin-bottom: 0px;" id="successAlert">
+        <div class="alert alert-success alert-dismissible fade show" role="alert" id="success">
             {{ session('success') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     @endif
 
     @if (session('error'))
-        <div class="alert alert-danger"  style="margin-bottom: 0px;" id="loginToContinue">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error">
             {{ session('error') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     @endif
-
-    <div class="content">
-        <div class="content-background"></div>
-
-        <!-- Donate buttons -->
-        <div class="donate-buttons">
-            <button class="donate-food-button ">Donate Foods</button>
-            <button class="donate-funds-button">Donate Funds</button>
-        </div>
-    </div>
 
     <!-- fund raise start -->
     @include('landing/allevent_content')
@@ -107,14 +103,19 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // Set a timer to fade out the alert after 3 seconds (3000 milliseconds)
-    $(document).ready(function() {
-        setTimeout(function() {
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('#success').fadeOut();
+        }, 3000); // Adjust the duration as needed
+    });
+    $(document).ready(function () {
+        setTimeout(function () {
             $('#successAlert').fadeOut();
         }, 3000); // Adjust the duration as needed
     });
-    $(document).ready(function() {
-        setTimeout(function() {
-            $('#loginToContinue').fadeOut();
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('#error').fadeOut();
         }, 3000); // Adjust the duration as needed
     });
 </script>

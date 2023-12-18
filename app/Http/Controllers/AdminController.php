@@ -176,7 +176,7 @@ class AdminController extends Controller
         }
 
             $user = $foodDonation->user;
-        if ($request->action == 'accept') {
+        if ($request->action == 'approve') {
             $title = "Food Donation Accepted";
             $content = "Your food donation on date " . $foodDonation->food_donation_date .  " has been accepted";
             $foodDonation->food_donation_status = 'approved';

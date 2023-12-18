@@ -24,7 +24,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['redirectToPage', 'home', 'announcementDetail', 'showRegistrationForm', 'register', 'showLoginForm', 'login', 'logout']]);
+        $this->middleware('auth', ['except' => ['redirectToPage', 'home', 'announcementDetail', 'showRegistrationForm', 'register', 'showLoginForm', 'login', 'logout', 'aboutUs', 'faqs']]);
     }
 
     public function showRegistrationForm()
@@ -277,7 +277,7 @@ class UserController extends Controller
                     ->get();
 
                 $expiringProducts = $user->inventory->products()
-                    ->whereIn('product_status', ['good', 'near_expiring'])
+                    ->whereIn('product_status', ['good', 'near_expiring', 'almost_expired'])
                     ->where('product_expiry_date', '<', now())
                     ->get();
 
@@ -287,7 +287,7 @@ class UserController extends Controller
                     // Loop through each near-expiring product and send a notification
                     foreach ($nearExpiringProducts as $product) {
                         $title = "Near Expired Item Found";
-                        $content = "Your product" . $product->product_name . " is near to expiration.";
+                        $content = "Your product " . $product->product_name . " is near to expiration.";
                         // Create a notification for each product
                         Notification::createNotification($user, $title, $content);
 
@@ -301,7 +301,7 @@ class UserController extends Controller
                     // Loop through each near-expiring product and send a notification
                     foreach ($expiringProducts as $product) {
                         $title = "Expired Item Found";
-                        $content = "Your product" . $product->product_name . " is expired.";
+                        $content = "Your product " . $product->product_name . " is expired.";
                         // Create a notification for each product
                         Notification::createNotification($user, $title, $content);
 
@@ -324,6 +324,7 @@ class UserController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(4)
             ->get();
+            
 
         //get announcement
         $announcements = Announcement::with(['event', 'event.donations'])
@@ -345,5 +346,13 @@ class UserController extends Controller
         $record = Announcement::with('event')->find($id);
 
         return View::make('announcementDetail', compact('record'));
+    }
+
+
+    public function aboutUs(){
+        return view('about_us');
+    }
+    public function faqs(){
+        return view('faqs');
     }
 }

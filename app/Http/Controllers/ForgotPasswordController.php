@@ -40,7 +40,7 @@ class ForgotPasswordController extends Controller
     public function showResetForm($token)
     {
         $user = User::where('reset_password_token', $token)->first();
-
+        
         if (!$user) {
             return redirect()->route('password.reset.form')->with('error', 'Invalid reset token');
         }

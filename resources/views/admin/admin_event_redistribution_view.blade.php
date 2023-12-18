@@ -202,7 +202,7 @@
                 </button>
             </div>
             <div class="modal-body" id="redistribution-print-modal">
-                <!-- Content will be filled dynamically -->
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -220,68 +220,81 @@
 
 <script>
     function printAllRedistributionReport() {
-        // Create a new window or iframe
-        var printWindow = window.open('', '_blank');
+    // Create a new window or iframe
+    var printWindow = window.open('', '_blank');
 
-        // Write the modal content to the new window or iframe
-        printWindow.document.write('<html><head><title>Overall Food Redistribution Report</title>');
-        printWindow.document.write('<style>');
-        printWindow.document.write(`
-            .modal-dialog {
-                max-width: 80%;
+    // Write the modal content to the new window or iframe
+    printWindow.document.write('<html><head><title>Overall Food Redistribution Report</title>');
+    printWindow.document.write('<style>');
+    printWindow.document.write(`
+        .modal-dialog {
+            max-width: 80%;
+        }
+
+        .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .report-section {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .report-divider {
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media print {
+            .modal-dialog .modal-content .modal-header button.close,
+            .modal-dialog .modal-content .modal-footer {
+                display: none !important;
             }
+        }
+    `);
+    printWindow.document.write('</style>');
 
-            .modal-body {
-                max-height: 70vh;
-                overflow-y: auto;
-            }
+    printWindow.document.write('</head><body>');
 
-            .report-section {
-                margin-bottom: 20px;
-            }
+    // Fetch the content dynamically and write it to the body
+    $.ajax({
+        url: "{{ route('admin.getAllRedistributionReports') }}",
+        type: 'GET',
+        success: function(response) {
+            printWindow.document.write(response);
 
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 10px;
-            }
+            // Close the document and trigger print
+            printWindow.document.close();
+            printWindow.print();
+        },
+        error: function(error) {
+            console.log(error);
+            printWindow.close();
+        }
+    });
 
-            table, th, td {
-                border: 1px solid #ddd;
-            }
-
-            th, td {
-                padding: 10px;
-                text-align: left;
-            }
-
-            th {
-                background-color: #f2f2f2;
-            }
-
-            .report-divider {
-                border: 1px solid #ddd;
-                margin-top: 20px;
-                margin-bottom: 20px;
-            }
-
-            @media print {
-                .modal-dialog .modal-content .modal-header button.close,
-                .modal-dialog .modal-content .modal-footer {
-                    display: none !important;
-                }
-            }
-        `);
-        printWindow.document.write('</style>');
-
-        printWindow.document.write('</head><body>');
-        printWindow.document.write(document.getElementById('all-redistribution-report-content').innerHTML);
-        printWindow.document.write('</body></html>');
-
-        // Close the document and trigger print
-        printWindow.document.close();
-        printWindow.print();
-    }
+    printWindow.document.write('</body></html>');
+}
 
     function showAllRedistributionReport() {
         // Make an AJAX request to fetch the overall redistribution report content

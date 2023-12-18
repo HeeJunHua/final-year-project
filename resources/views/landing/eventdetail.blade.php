@@ -67,29 +67,6 @@
 </head>
 
 <body>
-    
-    @if (session('success'))
-        <div class="alert alert-success"  style="margin-bottom: 0px;" id="successAlert">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger"  style="margin-bottom: 0px;" id="loginToContinue">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    <div class="content">
-        <div class="content-background"></div>
-
-        <!-- Donate buttons -->
-        <div class="donate-buttons">
-            <button class="donate-food-button ">Donate Foods</button>
-            <button class="donate-funds-button">Donate Funds</button>
-        </div>
-    </div>
-
     <!-- fund raise start -->
     @include('landing/eventdetail_content')
     <!-- fund raise end -->

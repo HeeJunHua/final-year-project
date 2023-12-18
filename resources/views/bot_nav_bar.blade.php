@@ -82,13 +82,13 @@
             <div class="col-3">
                 <h5>Don't Miss a Thing</h5>
                 <h6>Join our newsletter for more info</h6>
-                <div class="input-group">
+                {{-- <div class="input-group">
                     <input type="email" class="form-control" placeholder="Your Email">
                     <div class="input-group-append">
                         <button class="btn btn-outline-light" type="button">Subscribe</button>
                     </div>
                 </div>
-                <div class="newsletter-hint">Your email is safe with us, we don't spam.</div>
+                <div class="newsletter-hint">Your email is safe with us, we don't spam.</div> --}}
             </div>
         </div>
         <div class="row">

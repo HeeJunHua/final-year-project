@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.fundraise_layout')
 
 @section('title')
     <title>Edit Food Item</title>
@@ -159,7 +159,7 @@
 
     // Set the minimum date to one week from the current date
     const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 7); // One week from the current date
+    currentDate.setDate(currentDate.getDate() + 3); // 2 Days from the current date
 
     const formattedDate = currentDate.toISOString().slice(0, 10); // Format as YYYY-MM-DD
 

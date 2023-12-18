@@ -55,6 +55,23 @@
 
 <body>
     <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert" id="success">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error">
+                {{ session('error') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
         <div class="content-background"></div>
         <div class="row justify-content-center register-form">
             <div class="col-md-8">
@@ -203,4 +220,23 @@
             icon.classList.add('fa-eye');
         }
     }
+</script>
+
+<script>
+    // Set a timer to fade out the alert after 3 seconds (3000 milliseconds)
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('#success').fadeOut();
+        }, 3000); // Adjust the duration as needed
+    });
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('#successAlert').fadeOut();
+        }, 3000); // Adjust the duration as needed
+    });
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('#error').fadeOut();
+        }, 3000); // Adjust the duration as needed
+    });
 </script>

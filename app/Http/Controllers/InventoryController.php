@@ -39,21 +39,6 @@ class InventoryController extends Controller
             $query->where('product_name', 'like', '%' . $request->input('search') . '%');
         }
 
-        // Handle filter
-        if ($request->has('filterBy')) {
-            switch ($request->input('filterBy')) {
-                case 'expired':
-                    $query->whereDate('product_expiry_date', '<', now());
-                    break;
-                case 'expiring_today':
-                    $query->whereDate('product_expiry_date', '=', now());
-                    break;
-                case 'good':
-                    $query->whereDate('product_expiry_date', '>', now());
-                    break;
-                // Add more cases for other filter options
-            }
-        }
 
         if ($request->has('sortBy')) {
             switch ($request->input('sortBy')) {
@@ -119,14 +104,21 @@ class InventoryController extends Controller
         $expiryDate = Carbon::createFromFormat('Y-m-d', $request->input('expiry_date'));
         $today = Carbon::today();
         
-        // Calculate 7 days from today
-        $sevenDaysLater = $today->copy()->addDays(8);
+        // Calculate 2 days before expiry
+        $twoDaysBeforeExpiry = $expiryDate->copy()->subDays(3);
         
-        // Check if the expiry date is within the next 7 days
-        $isWithinSevenDays = $expiryDate->isBetween($today, $sevenDaysLater);
+        // Calculate 7 days before expiry
+        $sevenDaysBeforeExpiry = $expiryDate->copy()->subDays(8);
         
-        // Determine the status based on the calculated condition
-        $productStatus = $expiryDate->isPast() ? 'expired' : ($isWithinSevenDays ? 'near_expiring' : 'good');
+        // Check if the current date is within 2 days before expiry
+        $isAlmostExpiring = $today->isBetween($twoDaysBeforeExpiry, $expiryDate);
+        
+        // Check if the current date is within 7 days before expiry
+        $isNearExpiring = $today->isBetween($sevenDaysBeforeExpiry, $expiryDate);
+        
+        // Determine the status based on the calculated conditions
+        $productStatus = $expiryDate->isPast() ? 'expired' : ($isAlmostExpiring ? 'almost_expired' : ($isNearExpiring ? 'near_expiring' : 'good'));
+        
         
 
         /** @var \App\Models\User $user **/
@@ -187,19 +179,25 @@ class InventoryController extends Controller
         // Find the product by its ID
         $product = Product::findOrFail($id);
 
-
         $expiryDate = Carbon::createFromFormat('Y-m-d', $request->input('expiry_date'));
         $today = Carbon::today();
         
-        // Calculate 7 days from today
-        $sevenDaysLater = $today->copy()->addDays(8);
+        // Calculate 2 days before expiry
+        $twoDaysBeforeExpiry = $expiryDate->copy()->subDays(3);
         
-        // Check if the expiry date is within the next 7 days
-        $isWithinSevenDays = $expiryDate->isBetween($today, $sevenDaysLater);
+        // Calculate 7 days before expiry
+        $sevenDaysBeforeExpiry = $expiryDate->copy()->subDays(8);
         
-        // Determine the status based on the calculated condition
-        $productStatus = $expiryDate->isPast() ? 'expired' : ($isWithinSevenDays ? 'near_expiring' : 'good');
+        // Check if the current date is within 2 days before expiry
+        $isAlmostExpiring = $today->isBetween($twoDaysBeforeExpiry, $expiryDate);
         
+        // Check if the current date is within 7 days before expiry
+        $isNearExpiring = $today->isBetween($sevenDaysBeforeExpiry, $expiryDate);
+        
+        // Determine the status based on the calculated conditions
+        $productStatus = $expiryDate->isPast() ? 'expired' : ($isAlmostExpiring ? 'almost_expired' : ($isNearExpiring ? 'near_expiring' : 'good'));
+        
+
 
         // Update the product attributes
         $product->update([
@@ -229,8 +227,8 @@ class InventoryController extends Controller
 
     public function donate(Product $product)
     {
-        // Check if the product is eligible for donation (near_expiry or good)
-        if ($product->product_status == 'near_expiry' || $product->product_status == 'good') {
+        // Check if the product is eligible for donation (near_expiring or good)
+        if ($product->product_status == 'near_expiring' || $product->product_status == 'good') {
             // Create a new FoodItem based on the product details
             $foodItem = new FoodItems([
                 'user_id' => $product->inventory->user->id,

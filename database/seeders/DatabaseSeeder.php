@@ -14,11 +14,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $adminData = [
-            'username' => 'admin',
-            'password' => Hash::make('admin123'),
-            'email' => 'admin@example.com',
-            'first_name' => 'Admin',
-            'last_name' => 'User',
+            'username' => 'Hee Jun Hua',
+            'password' => Hash::make('Heejunhua'),
+            'email' => 'heejunhua1231@gmail.com',
+            'first_name' => 'Hee',
+            'last_name' => 'Jun Hua',
             'contact_number' => '+6134567890',
             'user_role' => 'admin',
             'user_photo' => 'default_profile_icon.png',
@@ -36,56 +36,56 @@ class DatabaseSeeder extends Seeder
         }
 
         
-        $user1Data = [
-            'username' => 'Hee Jun Hua',
-            'password' => Hash::make('Heejunhua'),
-            'email' => 'hee@gmail.com',
-            'first_name' => 'Hee',
-            'last_name' => 'Jun Hua',
-            'contact_number' => '+6011234442',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'remember_token' => null,
-        ];
-        $user2Data = [
-            'username' => 'Hee Jun Hua',
-            'password' => Hash::make('Heejunhua'),
-            'email' => 'heejunhua1231@gmail.com',
-            'first_name' => 'Hee',
-            'last_name' => 'Jun Hua',
-            'contact_number' => '+6011234442',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'remember_token' => null,
-        ];
-        $user3Data = [
-            'username' => 'Hee Jun Hua',
-            'password' => Hash::make('Heejunhua'),
-            'email' => 'heejh-wm20@student.tarc.edu.my',
-            'first_name' => 'Hee',
-            'last_name' => 'Jun Hua',
-            'contact_number' => '+6011234442',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'remember_token' => null,
-        ];
-        // Check if the user1 already exists
-        $user1 = User::where('email', $user1Data['email'])->first();
-        $user2 = User::where('email', $user2Data['email'])->first();
-        $user3 = User::where('email', $user3Data['email'])->first();
+        // $user1Data = [
+        //     'username' => 'Hee Jun Hua',
+        //     'password' => Hash::make('Heejunhua'),
+        //     'email' => 'hee@gmail.com',
+        //     'first_name' => 'Hee',
+        //     'last_name' => 'Jun Hua',
+        //     'contact_number' => '+6011234442',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        //     'remember_token' => null,
+        // ];
+        // $user2Data = [
+        //     'username' => 'Hee Jun Hua',
+        //     'password' => Hash::make('Heejunhua'),
+        //     'email' => 'heejunhua1231@gmail.com',
+        //     'first_name' => 'Hee',
+        //     'last_name' => 'Jun Hua',
+        //     'contact_number' => '+6011234442',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        //     'remember_token' => null,
+        // ];
+        // $user3Data = [
+        //     'username' => 'Hee Jun Hua',
+        //     'password' => Hash::make('Heejunhua'),
+        //     'email' => 'heejh-wm20@student.tarc.edu.my',
+        //     'first_name' => 'Hee',
+        //     'last_name' => 'Jun Hua',
+        //     'contact_number' => '+6011234442',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        //     'remember_token' => null,
+        // ];
+        // // Check if the user1 already exists
+        // $user1 = User::where('email', $user1Data['email'])->first();
+        // $user2 = User::where('email', $user2Data['email'])->first();
+        // $user3 = User::where('email', $user3Data['email'])->first();
 
-        if (!$user1) {
-            // User1 doesn't exist, create it
-            DB::table('users')->insert($user1Data);
-        }
-        if (!$user2) {
-            // User1 doesn't exist, create it
-            DB::table('users')->insert($user2Data);
-        }
-        if (!$user3) {
-            // User1 doesn't exist, create it
-            DB::table('users')->insert($user3Data);
-        }
+        // if (!$user1) {
+        //     // User1 doesn't exist, create it
+        //     DB::table('users')->insert($user1Data);
+        // }
+        // if (!$user2) {
+        //     // User1 doesn't exist, create it
+        //     DB::table('users')->insert($user2Data);
+        // }
+        // if (!$user3) {
+        //     // User1 doesn't exist, create it
+        //     DB::table('users')->insert($user3Data);
+        // }
 
         // $notificationData = [
         //     'user_id' => 3,
@@ -179,39 +179,39 @@ class DatabaseSeeder extends Seeder
 
 
 
-        $foodItems = [
-            [
-                'user_id' => 3,
-                'food_item_name' => 'Chipsters',
-                'food_item_category' => 'snacks',
-                'food_item_quantity' => 90,
-                'has_expiry_date' => true,
-                'food_item_expiry_date' => '2023-12-25',
-                'donated' => false,
-                'created_at' => now(),
-            ],
-            [
-                'user_id' => 3,
-                'food_item_name' => 'Canned Lunch Meat',
-                'food_item_category' => 'canned_goods',
-                'food_item_quantity' => 40,
-                'has_expiry_date' => false,
-                'food_item_expiry_date' => null,
-                'donated' => false,
-                'created_at' => now(),
-            ],
-            [
-                'user_id' => 3,
-                'food_item_name' => 'Raisins',
-                'food_item_category' => 'dry_goods',
-                'food_item_quantity' => 40,
-                'has_expiry_date' => true,
-                'food_item_expiry_date' => '2023-12-26',
-                'donated' => false,
-                'created_at' => now(),
-            ],
-        ];
-        DB::table('food_items')->insert($foodItems);
+        // $foodItems = [
+        //     [
+        //         'user_id' => 3,
+        //         'food_item_name' => 'Chipsters',
+        //         'food_item_category' => 'snacks',
+        //         'food_item_quantity' => 90,
+        //         'has_expiry_date' => true,
+        //         'food_item_expiry_date' => '2023-12-25',
+        //         'donated' => false,
+        //         'created_at' => now(),
+        //     ],
+        //     [
+        //         'user_id' => 3,
+        //         'food_item_name' => 'Canned Lunch Meat',
+        //         'food_item_category' => 'canned_goods',
+        //         'food_item_quantity' => 40,
+        //         'has_expiry_date' => false,
+        //         'food_item_expiry_date' => null,
+        //         'donated' => false,
+        //         'created_at' => now(),
+        //     ],
+        //     [
+        //         'user_id' => 3,
+        //         'food_item_name' => 'Raisins',
+        //         'food_item_category' => 'dry_goods',
+        //         'food_item_quantity' => 40,
+        //         'has_expiry_date' => true,
+        //         'food_item_expiry_date' => '2023-12-26',
+        //         'donated' => false,
+        //         'created_at' => now(),
+        //     ],
+        // ];
+        // DB::table('food_items')->insert($foodItems);
 
         
     }

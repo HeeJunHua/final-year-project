@@ -12,7 +12,9 @@ class Point extends Model
         'donation_id',
         'redemption_id',
         'point',
-        'transaction_type'
+        'transaction_type',
+        'food_donation_id',
+        'event_redistribution_id',
     ];
 
     public function event()

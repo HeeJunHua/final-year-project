@@ -1,6 +1,11 @@
 <!-- resources/views/auth/passwords/forgot.blade.php -->
 
-@extends('layouts.app')
+@extends('layouts.fundraise_layout')
+
+@section('title')
+    <title>Forget Password Page</title>
+@endsection
+
 
 @section('content')
     <div class="container">
@@ -10,15 +15,6 @@
                     <div class="card-header">{{ __('Forgot Password') }}</div>
 
                     <div class="card-body">
-                        @if(session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
-                            </div>
-                        @elseif(session('error'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('error') }}
-                            </div>
-                        @endif
 
                         <form method="POST" action="{{ route('password.reset.send') }}">
                             @csrf
@@ -49,17 +45,4 @@
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Set a timer to fade out the alert after 3 seconds (3000 milliseconds)
-        $(document).ready(function () {
-            setTimeout(function () {
-                $('#successAlert, #loginToContinue').fadeOut();
-            }, 3000); // Adjust the duration as needed
-
-            // Automatic sliding every 20 seconds
-            $('#carouselExample').carousel({
-                interval: 20000 // 20 seconds
-            });
-        });
-    </script>
 @endsection

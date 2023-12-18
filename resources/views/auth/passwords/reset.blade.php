@@ -1,4 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.fundraise_layout')
+
+
+@section('title')
+    <title>Reset Password Page</title>
+@endsection
 
 @section('content')
     <div class="container">
@@ -8,12 +13,6 @@
                     <div class="card-header">{{ __('Reset Password') }}</div>
 
                     <div class="card-body">
-                        @if(session('error'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('error') }}
-                            </div>
-                        @endif
-
                         <form method="POST" action="{{ route('password.reset.submit') }}">
                             @csrf
                             <input type="hidden" name="token" value="{{ $token }}">

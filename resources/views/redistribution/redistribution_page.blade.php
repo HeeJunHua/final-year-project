@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.fundraise_layout')
 
 @section('title')
     <title>Event Redistribution Page</title>
@@ -165,9 +165,8 @@
                         <div class="row">
                             <div class="col-sm-9">
                                 <div class="card-body">
-                                    <p class="card-title">Status: {{ ucfirst($event->status) }}</p>
-                                    <h5>{{ $event->event_name }}</h5>
-                                    <p>Status: {{ ucfirst($event->status) }}</p>
+                                    <h3>Status: {{ ucfirst($event->status) }}</h3>
+                                    <p>Event Name : {{ $event->event_name }}</p>
                                     <p>Redistribution Date: {{ $event->event_date }}</p>
                                     <p>Location: {{ $event->location }}</p>
                                     <p>People Quantity: {{ $event->people_quantity }}</p>
@@ -268,8 +267,8 @@
                         <div class="row">
                             <div class="col-sm-9">
                                 <div class="card-body">
-                                    <p class="card-title">Status: {{ ucfirst($event->status) }}</p>
-                                    <h5>{{ $event->event_name }}</h5>
+                                    <h3>Status: {{ ucfirst($event->status) }}</h3>
+                                    <p>{{ $event->event_name }}</p>
                                     <p>Description: {{ $event->leftovers_description }}</p>
                                     <p>Redistribution Date: {{ $event->event_date }}</p>
                                     <p>Location: {{ $event->location }}</p>
@@ -343,6 +342,7 @@
                         <div class="row">
                             <div class="col-sm-9">
                                 <div class="card-body">
+                                    <h3>Status: {{ ucfirst($event->status) }}</h3>
                                     <h5>{{ $event->event_name }}</h5>
                                     <p>Description: {{ $event->leftovers_description }}</p>
                                     <p>Redistribution Date: {{ $event->event_date }}</p>

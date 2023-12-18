@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.fundraise_layout')
 
 @section('title')
     <title>Edit Product Page</title>

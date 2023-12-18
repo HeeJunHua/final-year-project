@@ -6,8 +6,6 @@
     Food Donation History
 @endsection
 
-
-
 @extends('layouts.dashboard')
 
 @section('content')

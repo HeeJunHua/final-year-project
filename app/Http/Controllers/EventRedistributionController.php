@@ -7,6 +7,9 @@ use App\Models\FoodItems;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Notification;
+use App\Models\Point;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
 
 class EventRedistributionController extends Controller
 {
@@ -221,6 +224,8 @@ class EventRedistributionController extends Controller
     {
         $eventRedistribution = EventRedistribution::findOrFail($id);
 
+        $eventDate = Carbon::parse($eventRedistribution->event_date);
+
         // Check if the event date has passed
         if ($eventRedistribution->event_date > now()) {
             // Redirect or handle the case where completion is not allowed before the event date
@@ -234,12 +239,27 @@ class EventRedistributionController extends Controller
             $eventRedistribution->completed_at = now(); // or use Carbon::now() for customization
             $eventRedistribution->save();
 
+            $point = new Point();
+
+            //update field
+            $point->event_id = null;
+            $point->user_id = $eventRedistribution->user->id;
+            $point->donation_id = null;
+            $point->redemption_id = null;
+            $point->food_donation_id = null;
+            $point->event_redistribution_id = $eventRedistribution->id;
+            $point->point = floor($eventRedistribution->foodItems->sum('food_item_quantity') / 10);
+            $point->transaction_type = "DR";
+
+            //save
+            $point->save();
+
             $user = $eventRedistribution->user;
             $title = "Event Distribution Is Completed";
             $content = "Thank you for participating in the event redistribution";
             Notification::createNotification($user, $title, $content);
             // You may want to redirect the user to a thank you page or any other appropriate action
-            return redirect()->route('event.redistribution.history')->with('success', 'Thank You For Participating In The Event Redistribution.');
+            return redirect()->route('event.redistribution.history')->with('success', 'Thank You For Participating In The Event Redistribution.'. $point->point . " points will be awarded for your contribution.");
         }
 
         // If the event is already completed, you can handle this case accordingly

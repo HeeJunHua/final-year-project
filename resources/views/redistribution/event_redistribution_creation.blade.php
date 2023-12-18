@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.fundraise_layout')
 
 @section('title')
     <title>Create Event for Redistribution</title>
@@ -183,7 +183,7 @@
 
             // Set the minimum date to one week from the current date
             const currentDate = new Date();
-            currentDate.setDate(currentDate.getDate() + 2);
+            currentDate.setDate(currentDate.getDate() + 3);
 
             const formattedDate = currentDate.toISOString().slice(0, 16); // Format as YYYY-MM-DDTHH:mm
 

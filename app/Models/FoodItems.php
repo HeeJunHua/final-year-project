@@ -30,4 +30,9 @@ class FoodItems extends Model
     {
         return $query->where('donated', false);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

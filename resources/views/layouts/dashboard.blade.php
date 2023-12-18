@@ -175,6 +175,20 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item {{ request()->routeIs('event.volunteer') ? 'active' : '' }}">
+                            <a href="{{ route('event.volunteer', ['type' => 'myevent'])}}"
+                                class="nav-link {{ request()->routeIs('event.volunteer') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Volunteer</p>
+                            </a>
+                        </li>
+                        <li class="nav-item {{ request()->routeIs('event.reportvolunteer') ? 'active' : '' }}">
+                            <a href="{{ route('event.reportvolunteer')}}"
+                                class="nav-link {{ request()->routeIs('event.reportvolunteer') ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-file"></i>
+                                <p>Volunteer Report</p>
+                            </a>
+                        </li>
                         @if(auth()->user()->user_role=="admin")
                         <li class="nav-item {{ request()->routeIs('event.report') ? 'menu-open' : '' }}">
                             @else

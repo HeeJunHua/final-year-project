@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Notification;
+use App\Models\Point;
 
 class FoodDonationController extends Controller
 {
@@ -55,6 +56,17 @@ class FoodDonationController extends Controller
         $categories = ['vegetables', 'fruits', 'grains', 'proteins', 'dairy', 'snacks', 'beverages', 'canned_goods', 'dry_goods', 'frozen_foods', 'baked_goods', 'sweets'];
         $foodItems = $user->foodItems()->notDonated()->get();
 
+        foreach ($foodItems as $food) {
+            if ($food->has_expiry_date && $food->food_item_expiry_date < now()->addDays(2)) {
+                $foodItemUser = $food->user;
+                $title = "Food Item Expired";
+                $content = "Your " . $food->food_item_name . " has expired and removed from food item donation list.";
+                Notification::createNotification($foodItemUser, $title, $content);
+
+                $food->delete();
+
+            }
+        }
         return view('food.food_donation_page', compact('foodItems', 'categories'));
     }
 
@@ -69,7 +81,7 @@ class FoodDonationController extends Controller
             'food_item_category' => ['required', 'string', 'max:255', Rule::in($categories)],
             'food_item_quantity' => 'required|integer|min:1',
             'has_expiry_date' => 'required|boolean', // Ensure the radio button is selected
-            'food_item_expiry_date' => $request->has_expiry_date ? 'required|date|after_or_equal:' . now()->addWeek()->toDateString() : '', // Validate expiry date conditionally
+            'food_item_expiry_date' => $request->has_expiry_date ? 'required|date|after_or_equal:' . now()->addDays(3)->toDateString() : '', 
         ], [
             'has_expiry_date.required' => 'Please choose whether the food item has an expiry date or not.',
             'food_item_expiry_date.required' => 'The expiry date is required when "Yes" is selected.',
@@ -113,7 +125,7 @@ class FoodDonationController extends Controller
             'food_item_category' => ['required', 'string', Rule::in($categories)],
             'food_item_quantity' => 'required|integer|min:1',
             'has_expiry_date2' => 'required|boolean',
-            'food_item_expiry_date' => $request->has_expiry_date2 ? 'required|date|after_or_equal:' . now()->addWeek()->toDateString() : '',
+            'food_item_expiry_date' => $request->has_expiry_date2 ? 'required|date|after_or_equal:' . now()->addDays(3)->toDateString() : '',
         ], [
             'has_expiry_date2.required' => 'Please choose whether the food item has an expiry date or not.',
             'food_item_expiry_date.required' => 'The expiry date is required when "Yes" is selected.',
@@ -133,6 +145,7 @@ class FoodDonationController extends Controller
                     ->withInput()
                     ->with('error', $errorMessages);
             }
+
             return redirect()->route('food.donation')
                 ->with('error', $errorMessages);
         }
@@ -198,7 +211,7 @@ class FoodDonationController extends Controller
                     // Custom validation rule to check if donation date and time are ahead of current time
                     $donationDateTime = strtotime($value);
                     $currentDateTime = now()->timestamp;
-        
+                    
                     // Check if the donation date and time are at least 2 days ahead
                     $minDateTime = strtotime('+2 days', $currentDateTime);
         
@@ -264,7 +277,7 @@ class FoodDonationController extends Controller
         $foodDonation = FoodDonation::findOrFail($id);
 
         // Check if the event date has passed
-        if ($foodDonation->food_donation_date > now()) {
+        if ($foodDonation->food_donation_date > now()->addDays(1)) {
             // Redirect or handle the case where completion is not allowed before the event date
             return redirect()->route('food.donation.history')->with('error', 'Your are not allowed to mark as completion before donation date');
         }
@@ -276,12 +289,28 @@ class FoodDonationController extends Controller
             $foodDonation->completed_at = now(); // or use Carbon::now() for customization
             $foodDonation->save();
 
+            $point = new Point();
+
+            //update field
+            $point->event_id = null;
+            $point->user_id = $foodDonation->user->id;
+            $point->donation_id = null;
+            $point->redemption_id = null;
+            $point->food_donation_id = $foodDonation->id;
+            $point->event_redistribution_id = null;
+            $point->point = floor($foodDonation->total_quantity / 10);
+            $point->transaction_type = "DR";
+
+            //save
+            $point->save();
+
+
             $user = $foodDonation->user;
             $title = "Food Donation Is Completed";
             $content = "Thank you for participating in the food donation";
             Notification::createNotification($user, $title, $content);
             // You may want to redirect the user to a thank you page or any other appropriate action
-            return redirect()->route('food.donation.history')->with('success', 'Thank You For Participating For Food Donation.');
+            return redirect()->route('food.donation.history')->with('success', 'Thank You For Participating For Food Donation. ' . $point->point . " points will be awarded for your contribution.");
         }
 
         // If the event is already completed, you can handle this case accordingly

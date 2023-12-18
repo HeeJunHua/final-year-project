@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.fundraise_layout')
 
 @section('title')
     <title>Inventory Page</title>
@@ -57,17 +57,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label for="filterBy">Filter By :</label>
-                                <select name="filterBy" class="form-control">
-                                    <option value="all">All</option>
-                                    <option value="expired">Expired</option>
-                                    <option value="near_expiring">Expiring This Week</option>
-                                    <option value="good">Good</option>
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-lg-2 mt-3">
                             <button type="submit" class="btn btn-primary ml-3">Search</button>
                         </div>
@@ -101,9 +90,15 @@
                             <td>{{ $product->product_expiry_date }}</td>
                             <td>{{ $product->product_status }}</td>
                             <td class="d-flex justify-content-center">
-                                <a href="{{ route('inventory.edit', ['id' => $product->id]) }}" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+                                @if ($product->product_status == 'donated')
+                                    <a href="{{ route('inventory.edit', ['id' => $product->id]) }}" class="btn btn-warning btn-sm disabled" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @else
+                                    <a href="{{ route('inventory.edit', ['id' => $product->id]) }}" class="btn btn-warning btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                @endif
                                 <form action="{{ route('inventory.destroy', $product) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
@@ -112,7 +107,7 @@
                                     </button>
                                 </form>
                             </td>
-                            @if ($product->product_status == 'near_expiry' || $product->product_status == 'good')
+                            @if ($product->product_status == 'near_expiring' || $product->product_status == 'good')
                                 <td>
                                     <form action="{{ route('inventory.donate', $product) }}" method="POST" style="display: inline-block;">
                                         @csrf
@@ -120,6 +115,12 @@
                                             <i class="fas fa-gift fa-fw"></i>
                                         </button>
                                     </form>
+                                </td>
+                            @elseif ($product->product_status == 'almost_expired')
+                                <td>
+                                    <button type="submit" class="btn btn-success btn-sm mx-2 disabled" data-bs-toggle="tooltip" data-bs-placement="top">
+                                        <i class="fas fa-gift fa-fw"></i>
+                                    </button>
                                 </td>
                             @elseif ($product->product_status == 'donated')
                                 <td>

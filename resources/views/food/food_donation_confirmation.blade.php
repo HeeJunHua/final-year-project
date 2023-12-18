@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.fundraise_layout')
 
 @section('title')
     <title>Food Donation Page</title>
@@ -66,12 +66,14 @@
 
             const eventDateInput = document.getElementById('donation_date_time');
 
-            // Set the minimum date to one week from the current date
+            // Set the minimum date to 2 days from the current date
             const currentDate = new Date();
             currentDate.setDate(currentDate.getDate() + 2);
 
-            const formattedDate = currentDate.toISOString().slice(0, 16);
+            const klTimezoneOptions = { timeZone: 'Asia/Kuala_Lumpur' };
+            const formattedDate = currentDate.toLocaleString('en-US', { ...klTimezoneOptions, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
 
+            // Set the 'min' attribute of the input element
             eventDateInput.setAttribute('min', formattedDate);
 
 

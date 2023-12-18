@@ -13,6 +13,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('donation_id')->nullable();
             $table->unsignedBigInteger('redemption_id')->nullable();
+            $table->unsignedBigInteger('food_donation_id')->nullable();
+            $table->unsignedBigInteger('event_redistribution_id')->nullable();
             $table->integer('point');
             $table->string('transaction_type', 255);
             $table->timestamps();
@@ -21,6 +23,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('donation_id')->references('id')->on('donations');
             $table->foreign('redemption_id')->references('id')->on('redemptions');
+            $table->foreign('food_donation_id')->references('id')->on('food_donations');
+            $table->foreign('event_redistribution_id')->references('id')->on('event_redistributions');
         });
     }
 

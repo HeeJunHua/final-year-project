@@ -48,13 +48,13 @@
         <div class="collapse navbar-collapse justify-content-center order-1" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="/">Home</a>
+                    <a class="nav-link mx-2" href="{{ route('fundraise_home_page')}}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="/about">About Us</a>
+                    <a class="nav-link mx-2" href="{{ route('about-us')}}">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="/">FAQs</a>
+                    <a class="nav-link mx-2" href="{{ route('faqs')}}">FAQs</a>
                 </li>
                 <li class="nav-item dropdown mx-2">
                     <a class="nav-link dropdown-toggle" href="#" id="fundraisingDropdown" role="button"
@@ -62,10 +62,9 @@
                         Fundraise
                     </a>
                     <div class="dropdown-menu" aria-labelledby="fundraisingDropdown">
-                        <a class="dropdown-item" href="#">Fundraise</a>
-                        <a class="dropdown-item" href="#">Food Donation</a>
-                        <a class="dropdown-item" href="#">Food Redistribution</a>
-                        <!-- Add more fundraising-related sub-menu items as needed -->
+                        <a class="dropdown-item" href="{{ route('event.allevent', 'Ongoing')}}">Events</a>
+                        <a class="dropdown-item" href="{{ route('event.volunteer', ['type' => 'myevent']) }}">Volunteer</a>
+                        <a class="dropdown-item" href="{{ route('event.redeem', ['status'=>'Ongoing'])}}">Points Redemption</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown mx-2">
@@ -77,7 +76,6 @@
                         <a class="dropdown-item" href="{{ route('food.donation') }}">Donate Food</a>
                         <a class="dropdown-item" href="{{ route('redistribution.page') }}">Food Distribution</a>
                         <a class="dropdown-item" href="{{ route('inventory.index') }}">Inventory Simulation</a>
-                        <!-- Add more food donation-related sub-menu items as needed -->
                     </div>
                 </li>
             </ul>
@@ -114,7 +112,7 @@
                                 <a class="dropdown-item" href="#">No new notifications</a>
                             @endforelse
 
-                            @if ($userNotifications->count() > 5)
+                            @if ($userNotifications->count() >= 5)
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('mark-all-as-read') }}">
                                     Mark All as Read

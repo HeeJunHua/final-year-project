@@ -91,8 +91,8 @@ Route::get('/mark-all-as-read', [NotificationController::class, 'markAllAsRead']
 Route::get('/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
 
 
-
-
+Route::get('/about-us/fundraising-food-waste', [UserController::class,'aboutUs'])->name('about-us');
+Route::get('/faq/fundraising-food-waste', [UserController::class,'faqs'])->name('faqs');
 
 
 

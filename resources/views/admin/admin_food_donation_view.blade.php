@@ -85,6 +85,15 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                      <button type="button" class="btn btn-primary report-modal" data-toggle="modal" data-target="#foodDonationReportModal"
+                      data-backdrop="static" data-keyboard="false">
+                      <i class="fas fa-file"></i> View Report</button>
+                  </div>
+                </div>
+              </div>
             
             <div class="modal fade" id="foodDonationReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -232,10 +241,10 @@
                             <form action="{{ route('admin.foodDonation.update', $foodDonation->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <button type="submit" name="action" value="approved" class="btn btn-success"><i
+                                <button type="submit" name="action" value="approve" class="btn btn-success"><i
                                         class="fas fa-check"></i> Approve</button>
-                                <button type="submit" name="action" value="rejected" class="btn btn-danger"><i
-                                        class="fas fa-times"></i> Reject</button>
+                                <button type="submit" name="action" value="decline" class="btn btn-danger"><i
+                                        class="fas fa-times"></i> Decline</button>
                             </form>
                         </div>
                     </div>
