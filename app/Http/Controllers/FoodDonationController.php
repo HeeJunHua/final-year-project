@@ -270,27 +270,21 @@ class FoodDonationController extends Controller
 
         return redirect()->route('food.donation')->with('success', 'Donation successful. Thank you for your generosity!');
     }
-
-
     public function completeFoodDonation(Request $request, $id)
     {
         $foodDonation = FoodDonation::findOrFail($id);
-
         // Check if the event date has passed
         if ($foodDonation->food_donation_date > now()->addDays(1)) {
             // Redirect or handle the case where completion is not allowed before the event date
             return redirect()->route('food.donation.history')->with('error', 'Your are not allowed to mark as completion before donation date');
         }
-
         // Check if the event redistribution is not already completed
         if (!$foodDonation->completed_at) {
             // Implement logic to mark the event redistribution as completed
             $foodDonation->food_donation_status = 'completed';
             $foodDonation->completed_at = now(); // or use Carbon::now() for customization
             $foodDonation->save();
-
             $point = new Point();
-
             //update field
             $point->event_id = null;
             $point->user_id = $foodDonation->user->id;
@@ -300,11 +294,8 @@ class FoodDonationController extends Controller
             $point->event_redistribution_id = null;
             $point->point = floor($foodDonation->total_quantity / 10);
             $point->transaction_type = "DR";
-
             //save
             $point->save();
-
-
             $user = $foodDonation->user;
             $title = "Food Donation Is Completed";
             $content = "Thank you for participating in the food donation";

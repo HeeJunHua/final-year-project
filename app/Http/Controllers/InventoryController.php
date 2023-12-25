@@ -60,16 +60,16 @@ class InventoryController extends Controller
                 case 'product_description':
                     $query->orderBy('product_description');
                     break;
-                // Add more cases for other filter options
+                    // Add more cases for other filter options
             }
         }
-        
+
 
         $products = $query->get();
 
         return view('inventory/inventory_page', compact('user', 'products'));
     }
-    
+
     public function create()
     {
         return view('inventory/inventory_creation_page');
@@ -103,23 +103,23 @@ class InventoryController extends Controller
 
         $expiryDate = Carbon::createFromFormat('Y-m-d', $request->input('expiry_date'));
         $today = Carbon::today();
-        
+
         // Calculate 2 days before expiry
         $twoDaysBeforeExpiry = $expiryDate->copy()->subDays(3);
-        
+
         // Calculate 7 days before expiry
         $sevenDaysBeforeExpiry = $expiryDate->copy()->subDays(8);
-        
+
         // Check if the current date is within 2 days before expiry
         $isAlmostExpiring = $today->isBetween($twoDaysBeforeExpiry, $expiryDate);
-        
+
         // Check if the current date is within 7 days before expiry
         $isNearExpiring = $today->isBetween($sevenDaysBeforeExpiry, $expiryDate);
-        
+
         // Determine the status based on the calculated conditions
         $productStatus = $expiryDate->isPast() ? 'expired' : ($isAlmostExpiring ? 'almost_expired' : ($isNearExpiring ? 'near_expiring' : 'good'));
-        
-        
+
+
 
         /** @var \App\Models\User $user **/
         $user = Auth::user();
@@ -181,22 +181,22 @@ class InventoryController extends Controller
 
         $expiryDate = Carbon::createFromFormat('Y-m-d', $request->input('expiry_date'));
         $today = Carbon::today();
-        
+
         // Calculate 2 days before expiry
         $twoDaysBeforeExpiry = $expiryDate->copy()->subDays(3);
-        
+
         // Calculate 7 days before expiry
         $sevenDaysBeforeExpiry = $expiryDate->copy()->subDays(8);
-        
+
         // Check if the current date is within 2 days before expiry
         $isAlmostExpiring = $today->isBetween($twoDaysBeforeExpiry, $expiryDate);
-        
+
         // Check if the current date is within 7 days before expiry
         $isNearExpiring = $today->isBetween($sevenDaysBeforeExpiry, $expiryDate);
-        
+
         // Determine the status based on the calculated conditions
         $productStatus = $expiryDate->isPast() ? 'expired' : ($isAlmostExpiring ? 'almost_expired' : ($isNearExpiring ? 'near_expiring' : 'good'));
-        
+
 
 
         // Update the product attributes
@@ -209,7 +209,7 @@ class InventoryController extends Controller
             'product_status' => $productStatus,
         ]);
 
-        
+
 
         // Redirect with success message
         return redirect()->route('inventory.index')->with('success', 'Product updated successfully.');
@@ -238,13 +238,13 @@ class InventoryController extends Controller
                 'food_item_expiry_date' => $product->product_expiry_date,
                 'has_expiry_date' => true,
             ]);
-    
+
             // Save the FoodItem
             $foodItem->save();
-    
+
             // Mark the product as donated or perform any other necessary action
             $product->update(['product_status' => 'donated']);
-    
+
             // Optionally, you can redirect the user or perform other actions
             return redirect()->back()->with('success', 'Product donated successfully!');
         } else {

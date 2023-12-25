@@ -261,11 +261,7 @@ class UserController extends Controller
         $userNotifications = Notification::where('user_id', auth()->id())
             ->where('notification_read', false)
             ->get();
-
-
-        // This is not a good idea to put but i will just put here as incomplete function
-        // It should be used in a service or cron so this function is bad for future use
-
+            
         if ($user) {
             // Check if the user has an inventory
             if ($user->inventory) {
