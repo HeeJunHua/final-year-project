@@ -61,6 +61,8 @@
 
         .accordion-style .btn-link:hover {
             text-decoration: none;
+            background-color: #15395a;
+            color: #ffffff;
         }
 
         .accordion-style .btn-link.collapsed {

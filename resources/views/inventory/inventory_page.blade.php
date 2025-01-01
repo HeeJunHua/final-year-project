@@ -136,7 +136,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="8" class="text-center">
+                        <td colspan="9" class="text-center">
                             <p>Your inventory is currently empty or there is no product in the filter option.</p>
                         </div>
                     </tr>

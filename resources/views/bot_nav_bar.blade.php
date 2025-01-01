@@ -69,14 +69,14 @@
             </div>
             <div class="col-3">
                 <h5>Contact Info</h5>
-                <div>fundraise@gmail.com <br> +601234567890</div>
+                <div>heejunhua1231@gmail.com <br> +601126336700</div>
             </div>
             <div class="col-3">
                 <h5>Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="/home" class="text-light">Home</a></li>
-                    <li><a href="/about" class="text-light">About Us</a></li>
-                    <li><a href="/contact" class="text-light">Contact Us</a></li>
+                    <li><a href="{{ route('fundraise_home_page')}}" class="text-light">Home</a></li>
+                    <li><a href="{{ route('about-us')}}" class="text-light">About Us</a></li>
+                    <li><a href="mailto:heejunhua1231@gmail.com" class="text-light">Contact Us</a></li>
                 </ul>
             </div>
             <div class="col-3">
@@ -98,7 +98,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                Copyright &copy; 2023 Fundraising & Food Waste Reduction
+                Copyright &copy; 2024 Fundraising & Food Waste Reduction
             </div>
         </div>
     </div>
